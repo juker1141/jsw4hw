@@ -38,12 +38,12 @@
     <table class="table mt-2 rounded">
       <thead class="alert-success">
         <tr>
-          <th class="text-center" width="120">分類</th>
-          <th class="text-center" width="120">產品名稱</th>
-          <th class="text-center" width="120">牌價</th>
-          <th class="text-center" width="120">售價</th>
-          <th class="text-center" width="100">是否上架</th>
-          <th class="text-center" width="120">編輯</th>
+          <th class="text-center border-0" width="120">分類</th>
+          <th class="text-center border-0" width="120">產品名稱</th>
+          <th class="text-center border-0" width="120">牌價</th>
+          <th class="text-center border-0" width="120">售價</th>
+          <th class="text-center border-0" width="100">是否上架</th>
+          <th class="text-center border-0" width="120">編輯</th>
         </tr>
       </thead>
       <tbody>
@@ -67,6 +67,7 @@
         </tr>
       </tbody>
     </table>
+    <pagination :pages="pagination"></pagination>
 
     <!-- Modal -->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="updateModal"
@@ -191,7 +192,7 @@
     </script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="all.js"></script>
+  <script src="js/all.js" type="module"></script>
 </body>
 
 </html>

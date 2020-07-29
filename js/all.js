@@ -1,7 +1,12 @@
+import pagination from './pagination.js';
+
+Vue.component('pagination', pagination);
+
 new Vue({
   el: '#app',
   data: {
     products: [],
+    pagination: {},
     tempProduct: {},
     api: {
       uuid: '8a8058c0-58d2-485b-b7fc-3c9be181cca7',
@@ -62,6 +67,7 @@ new Vue({
         .then(res => {
           console.log(res)
           this.products = res.data.data;
+          this.pagination = res.data.meta.pagination;
         })
     },
   },
