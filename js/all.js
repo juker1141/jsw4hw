@@ -1,45 +1,43 @@
 import pagination from './pagination.js';
+import modal from './modal.js';
 
 Vue.component('pagination', pagination);
+Vue.component('modal', modal)
 
 new Vue({
   el: '#app',
   data: {
     products: [],
     pagination: {},
-    tempProduct: {},
+    tempProduct: {
+      imageUrl: [],
+    },
     api: {
       uuid: '8a8058c0-58d2-485b-b7fc-3c9be181cca7',
       path: 'https://course-ec-api.hexschool.io/api/',
     },
     token: '',
+    loadingBtn: '',
   },
   methods: {
-    updateProduct() {
-      if (this.tempProduct.id) {
-        const id = this.tempProduct.id;
-        this.products.forEach((item, i) => {
-          if (item.id === id) {
-            this.products[i] = this.tempProduct;
-          }
-        })
-      } else {
-        const id = new Date().getTime();
-        this.tempProduct.id = id;
-        this.products.push(this.tempProduct);
-      }
-      this.tempProduct = {};
-      $('#productModal').modal('hide');
-    },
+    updateProduct() { },
     openModal(isNew, item) {
       switch (isNew) {
         case 'new':
-          this.tempProduct = {};
+          this.tempProduct = {
+            imageUrl: [],
+          };
           $('#productModal').modal('show');
           break;
         case 'edit':
-          this.tempProduct = Object.assign({}, item);
-          $('#productModal').modal('show');
+          this.loadingBtn = item.id;
+          const url = `${this.api.path}${this.api.uuid}/admin/ec/product/${item.id}`
+          axios.get(url)
+            .then(res => {
+              this.tempProduct = res.data.data;
+              $('#productModal').modal('show');
+              this.loadingBtn = '';
+            })
           break;
         case 'delete':
           $('#delProductModal').modal('show');
@@ -55,19 +53,29 @@ new Vue({
         this.products.forEach((item, i) => {
           if (item.id === id) {
             this.products.splice(i, 1);
-            this.tempProduct = {};
+            this.tempProduct = {
+              imageUrl: [],
+            };
           }
         });
       }
       $('#delProductModal').modal('hide');
     },
-    getProducts() {
-      const url = `${this.api.path}${this.api.uuid}/admin/ec/products`;
+    getProducts(num = 1) {
+      //此寫法是給num一個預設值
+      const url = `${this.api.path}${this.api.uuid}/admin/ec/products?page=${num}`;
       axios.get(url)
         .then(res => {
           console.log(res)
           this.products = res.data.data;
           this.pagination = res.data.meta.pagination;
+
+          if (this.tempProduct.id) {
+            this.tempProduct = {
+              imageUrl: [],
+            };
+            $('#productModal').modal('hide');
+          }
         })
     },
   },
