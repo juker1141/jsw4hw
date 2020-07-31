@@ -52,14 +52,19 @@ new Vue({
         const id = this.tempProduct.id;
         this.products.forEach((item, i) => {
           if (item.id === id) {
-            this.products.splice(i, 1);
-            this.tempProduct = {
-              imageUrl: [],
-            };
+            // this.products.splice(i, 1);
+            // this.tempProduct = {
+            //   imageUrl: [],
+            // };
+            const url = `${this.api.path}${this.api.uuid}/admin/ec/product/${item.id}`
+            axios.delete(url)
+              .then(res => {
+                console.log(res)
+                this.getProducts();
+              })
           }
         });
       }
-      $('#delProductModal').modal('hide');
     },
     getProducts(num = 1) {
       //此寫法是給num一個預設值
@@ -75,6 +80,7 @@ new Vue({
               imageUrl: [],
             };
             $('#productModal').modal('hide');
+            $('#delProductModal').modal('hide');
           }
         })
     },
