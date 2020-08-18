@@ -16,7 +16,7 @@ export default {
                     <input id="imageUrl" v-model="tempProduct.imageUrl[0]" type="text" class="form-control"
                       placeholder="請輸入圖片連結">
                   </div>
-                  <img class="img-fluid" :src="tempProduct.imageUrl" alt>
+                  <img class="img-fluid" :src="tempProduct.imageUrl[0]" alt>
                 </div>
                 <div class="col-8">
                   <div class="form-group">
@@ -80,7 +80,7 @@ export default {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            <button type="button" @click="updateProduct" class="btn btn-primary">完成</button>
+            <button type="button" @click="updateProduct(isNew)" class="btn btn-primary">完成</button>
           </div>
         </div>
       </div>`,
@@ -89,13 +89,20 @@ export default {
       // tempProduct: {}
     };
   },
-  props: ['tempProduct', 'api'],
+  props: ['tempProduct', 'api', 'isNew'],
   methods: {
-    updateProduct() {
-      let url = `${this.api.path}${this.api.uuid}/admin/ec/product/${this.tempProduct.id}`;
-      axios.patch(url, this.tempProduct)
+    updateProduct(isNew) {
+      let url = `${this.api.path}${this.api.uuid}/admin/ec/product`;
+      let httpMethod = 'post';
+      console.log(this.isNew)
+      if(!this.isNew){
+        url = `${this.api.path}${this.api.uuid}/admin/ec/product/${this.tempProduct.id}`;
+        httpMethod = 'patch';
+      }
+      axios[httpMethod](url, this.tempProduct)
         .then(res => {
           // console.log(res)
+          $('#productModal').modal('hide');
           this.$emit('update')
         });
     }

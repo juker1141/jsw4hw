@@ -87,7 +87,8 @@
               const expired = res.data.expired;
               //將token與到期日寫入cookie
               document.cookie = `testToken=${token}; expires=${new Date(expired * 1000)}; path=/`;
-              window.location = '/jsw4hw/product.html';
+              window.location = '/product.html';
+              // '/jsw4hw/product.html'
             }).catch((error) => {
               console.log(error);
             });

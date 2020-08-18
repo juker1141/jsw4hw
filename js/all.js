@@ -16,6 +16,7 @@ new Vue({
       uuid: '8a8058c0-58d2-485b-b7fc-3c9be181cca7',
       path: 'https://course-ec-api.hexschool.io/api/',
     },
+    isNew: true,
     token: '',
     loadingBtn: '',
   },
@@ -24,6 +25,7 @@ new Vue({
     openModal(isNew, item) {
       switch (isNew) {
         case 'new':
+          this.isNew = true;
           this.tempProduct = {
             imageUrl: [],
           };
@@ -31,6 +33,7 @@ new Vue({
           break;
         case 'edit':
           this.loadingBtn = item.id;
+          this.isNew = false;
           const url = `${this.api.path}${this.api.uuid}/admin/ec/product/${item.id}`
           axios.get(url)
             .then(res => {
